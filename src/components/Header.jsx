@@ -1,8 +1,24 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import { AiOutlineUser } from "react-icons/ai";
 import { BsList } from "react-icons/bs";
+import { TbLogout } from "react-icons/tb";
 
 export default function Header({setCollapsed, collapsed}) {
+  const [hide_element, setHide_element] = useState(true);
+  
+  const navigate = useNavigate();
+  const username = localStorage.getItem("username");
+
+  const handleLogout = () => {
+    const confirmLogout = window.confirm("Deseja realmente sair?");
+    if (confirmLogout) {
+      localStorage.removeItem("token");
+      navigate("/login", { replace: true });
+    }
+  };
+
   return (
     <Style_header>
       <div className="left menu">
@@ -10,9 +26,18 @@ export default function Header({setCollapsed, collapsed}) {
         <h1 className="text-xl font-bold">VideoBox</h1>
       </div>
       <input placeholder="Pesquisar"></input>
-      <button className='user'>
+      <button className='user' onClick={() => setHide_element(!hide_element)}>
         <AiOutlineUser className="icon" />
       </button>
+      <div className={`user_settings ${hide_element ? "hide_element" : ""}`}>
+        <div className='parting part_up'>
+          <h3>{username}</h3>
+          <button className='logout' onClick={handleLogout}><TbLogout />Sair</button>
+        </div>
+        <div className='parting'></div>
+        <div className='parting'></div>
+        <div className='parting'></div>
+      </div>
     </Style_header>
   );
 }
@@ -87,4 +112,46 @@ const Style_header = styled.header`
   .icon {
     color: #7ED8FF
   }
+
+  .user_settings {
+    width: 220px;
+    height: 150px;
+    background-color: #282626;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    right: 0;
+    top: 60px;
+  }
+
+  .hide_element {
+    display: none;
+  }
+
+  .parting {
+    width: 100%;
+    height: 22%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 10px;
+  }
+
+  .part_up {
+    height: 34%;
+  }
+
+  .logout {
+    width: 40%;
+    height: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 5px;
+    color: #D7D7D7;
+    background-color: transparent;
+    border: 1px solid #808080;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
 `;
