@@ -2,7 +2,6 @@ import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import MainContent from "./components/MainContent";
 import Login from "./components/Login";
-// import Home from "./components/Home";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react"; 
@@ -15,7 +14,7 @@ export default function App() {
 		
 		<Router>
 		<Routes>
-			<Route path="/" element={<>
+			<Route path="/*" element={<>
 				<Header setCollapsed={setCollapsed} collapsed={collapsed}/>
 				<div className="page">
 					<Sidebar collapsed={collapsed}/>
