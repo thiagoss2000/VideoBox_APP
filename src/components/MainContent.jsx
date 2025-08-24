@@ -4,7 +4,7 @@ import Folders from "./Folders";
 // import Schedules from "./Schedules";
 // import Notes from "./Notes";
 // import Preferences from "./Preferences";
-// import Player from "./Player";
+import Player from "./Player";
 
 export default function MainContent() {
   return (
@@ -14,8 +14,8 @@ export default function MainContent() {
         <Route path="/folders" element={<Folders />} />
         {/*<Route path="/schedules" element={<Schedules />} />
         <Route path="/notes" element={<Notes />} />
-        <Route path="/preferences" element={<Preferences />} />
-        <Route path="/player" element={<Player />} /> */}
+        <Route path="/preferences" element={<Preferences />} />*/}
+        <Route path="/player" element={<Player />} /> 
       </Routes>
     </div>
   );
