@@ -1,39 +1,42 @@
 import { useEffect, useState } from "react"
-import ReactPlayer from "react-player"
+import { useNavigate } from "react-router-dom"
 import api from "../api"
 import styled from "styled-components"
+import { AiOutlineSync } from "react-icons/ai"
 
 export default function MainContent() {
     const [videos, setVideos] = useState([])
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(true)
 
-    useEffect(() => {
-        const fetchTimeline = async () => {
+    const navigate = useNavigate()
+
+    const fetchTimeline = async (newList = false) => {
         try {
+            setLoading(true)
             const token = localStorage.getItem("token")
             if (!token) {
-            setError("Token não encontrado. Faça login novamente.")
-            setLoading(false)
-            return
+                setError("Token não encontrado. Faça login novamente.")
+                setLoading(false)
+                return
             }
 
-            const res = await api.get("/timeline", {
-            headers: {
-                token: `Bearer ${token}`,
-            },
+            const res = await api.get(`/timeline${newList ? "?newList=true" : ""}`, {
+                headers: { token: `Bearer ${token}` },
             })
 
             if (res.status === 200) {
-            setVideos(res.data.recommendations || [])
+                setVideos(res.data.searchVideos || [])
+                setError("")
             }
         } catch (err) {
             setError("Erro ao carregar vídeos.")
         } finally {
             setLoading(false)
         }
-        }
+    }
 
+    useEffect(() => {
         fetchTimeline()
     }, [])
 
@@ -46,25 +49,56 @@ export default function MainContent() {
         
     return (
         <Main>
-        {videos.map((video) => (
-            <div className="video_recommends">
-                <div className="video">
-                    <ReactPlayer
-                        src={`https://www.youtube.com/watch?v=${video.videoId}`}
-                        controls
-                        width="100%"
-                        height="100%"
-                    />
-                </div>
-                <h3>{video.title}</h3>
-                <p>{video.channelTitle}</p>
-            </div>
-        ))}
+            <h4 className="nameContainer">
+                <AiOutlineSync 
+                    className="icon" 
+                    onClick={() => fetchTimeline(true)} 
+                />
+                Recomendações
+            </h4>
+            <VideosContainer>
+                {videos.map((video, idx) => (
+                    <VideoCard
+                        key={idx}
+                        onClick={() =>
+                            navigate("/player", { state: { videoId: video.videoId } })
+                        }
+                    >
+                        <div className="thumbnail">
+                            <img src={video.thumbnails?.medium?.url || ""} alt={video.title} />
+                        </div>
+                        <div className="info">
+                            <h4>{video.title}</h4>
+                            <p>{video.channelTitle}</p>
+                        </div>
+                    </VideoCard>
+                ))}
+            </VideosContainer>
         </Main>
     )
 }
 
 const Main = styled.nav`
+    .nameContainer {
+        padding: 20px;
+        color: #ffffff7a;
+        font-weight: lighter;
+        display: flex;
+        align-items: center;
+    }
+    .icon {
+        color: #7ED8FF;
+        margin-right: 15px;
+        font-size: 1.6rem;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+    .icon:hover {
+        transform: rotate(90deg);
+    }
+`
+
+const VideosContainer = styled.nav`
     display: flex;
     flex-wrap: nowrap;          /* não quebrar linha */
     gap: 12px;                  /* espaçamento entre itens (opcional) */
@@ -72,23 +106,51 @@ const Main = styled.nav`
     overflow-y: hidden;         /*evita barra vertical */
     -webkit-overflow-scrolling: touch; /* inércia no iOS */
     scroll-snap-type: x proximity;     /* snap suave (opcional) */
-    padding: 8px;               /* espaço interno opcional */
+    padding-bottom: 20px;
     border-radius: 8px;
     height: max-content;
-    max-width: 88%;
+    max-width: 95%;
     margin-inline: auto;
-    margin-top: 20px;
-    .video_recommends {
-        width: 540px;
-        height: 380px;
-        background-color: #282626;
-        display: flex;
-        flex-direction: column;
-        color: #7ED8FF;
-    }
-    .video {
+
+`
+const VideoCard = styled.div`
+    width: 540px;
+    height: 380px;
+    background-color: #282626;
+    /* display: flex;
+    flex-direction: column; */
+    padding: 20px;
+    color: #7ED8FF;
+    border-radius: 8px;
+    
+    cursor: pointer;
+
+    .thumbnail img {
         width: 500px;
         aspect-ratio: 16/9;
+        object-fit: cover;
     }
 
+    .info {
+        h4 { 
+            margin: 0 0 4px 0; 
+            font-size: 0.95rem; 
+            font-weight: normal;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;     /* número máximo de linhas */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            /* max-width: 300px;           */
+        }
+        p { 
+            margin: 0; 
+            font-size: 0.75rem; 
+            color: #c0e8ff; 
+            white-space: nowrap;       /* não quebra linha */
+            overflow: hidden;          /* esconde o excesso */
+            text-overflow: ellipsis;   /* adiciona "..." */
+            /* max-width: 300px;       */
+        }
+    }
 `
