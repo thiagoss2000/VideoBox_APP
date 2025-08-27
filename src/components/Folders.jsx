@@ -2,9 +2,10 @@ import { useEffect, useState } from "react"
 import api from "../api"
 import styled from "styled-components"
 import { useNavigate } from "react-router-dom"
+import { useData } from "../context/MainContext"
 
 export default function Folders() {
-    const [folders, setFolders] = useState([])
+    const { folders, setFolders } = useData()
     const [selectedFolder, setSelectedFolder] = useState(null)
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(true)
@@ -149,7 +150,7 @@ export default function Folders() {
                             <VideoCard
                                 key={idx}
                                 onClick={() =>
-                                    navigate("/player", { state: { videoId: video.videoId } })
+                                    navigate("/player", { state: { videoId: video.videoId, title: video.title, folderName: selectedFolder.name, order: video._id } })
                                 }
                             >
                                 <div className="thumbnail">

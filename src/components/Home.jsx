@@ -61,7 +61,7 @@ export default function MainContent() {
                     <VideoCard
                         key={idx}
                         onClick={() =>
-                            navigate("/player", { state: { videoId: video.videoId } })
+                            navigate("/player", { state: { videoId: video.videoId, title: video.title } })
                         }
                     >
                         <div className="thumbnail">
@@ -117,8 +117,6 @@ const VideoCard = styled.div`
     width: 540px;
     height: 380px;
     background-color: #282626;
-    /* display: flex;
-    flex-direction: column; */
     padding: 20px;
     color: #7ED8FF;
     border-radius: 8px;
