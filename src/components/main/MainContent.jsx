@@ -1,11 +1,9 @@
 import { Routes, Route } from "react-router-dom";
-import { MainProvider } from "../context/MainContext";
-import Home from "./Home";
-import Folders from "./Folders";
-// import Schedules from "./Schedules";
-// import Notes from "./Notes";
-// import Preferences from "./Preferences";
-import Player from "./Player";
+import { MainProvider } from "../../context/MainContext";
+import Home from "../../pages/home/Home";
+
+import Player from "../../pages/player/Player";
+import FoldersPage from "../../pages/folders/Folder";
 
 export default function MainContent() {
   return (
@@ -13,7 +11,7 @@ export default function MainContent() {
       <MainProvider>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/folders" element={<Folders />} />
+          <Route path="/folders" element={<FoldersPage />} />
           {/*<Route path="/schedules" element={<Schedules />} />
           <Route path="/notes" element={<Notes />} />
           <Route path="/preferences" element={<Preferences />} />*/}

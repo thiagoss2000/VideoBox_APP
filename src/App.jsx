@@ -1,7 +1,7 @@
-import Header from "./components/Header";
-import Sidebar from "./components/Sidebar";
-import MainContent from "./components/MainContent";
-import Login from "./components/Login";
+import Header from "./components/header/Header";
+import Sidebar from "./components/sidebar/Sidebar";
+import MainContent from "./components/main/MainContent";
+import Login from "./pages/login/Login";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react"; 
