@@ -30,3 +30,6 @@ export const addVideoToFolder = (folderName, videoId, token) =>
 		{ folderName, videoId },
 		{ headers: { token: `Bearer ${token}` } }
 	)
+
+export const patchFolderDays = (folderName, daysOfWeek, token) =>
+	api.patch("/folders/days", { folderName, daysOfWeek }, { headers: { token: `Bearer ${token}` } })

@@ -7,7 +7,7 @@ export default function Sidebar({ collapsed }) {
   const menuItems = [
     { label: "Início", icon: <BsHouse className="side_icon" />, path: "/" },
     { label: "Pastas", icon: <BsFolder2 className="side_icon" />, path: "/folders" },
-    { label: "Cronogramas", icon: <BsCalendar3 className="side_icon" />, path: "/schedules" },
+    { label: "Cronogramas", icon: <BsCalendar3 className="side_icon" />, path: "/planner" },
     { label: "Notas", icon: <FaRegNoteSticky className="side_icon" />, path: "/notes" },
     { label: "Preferências", icon: <BsPalette2 className="side_icon" />, path: "/preferences" },
     { label: "Player", icon: <BsPlayBtn className="side_icon" />, path: "/player" },

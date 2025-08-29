@@ -2,12 +2,12 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useData } from "../../context/MainContext"
 
-import { fetchFolders, createFolder, renameFolder, deleteFolder, deleteVideo, renameVideoTag } from "../../api/foldersApi"
+import { fetchFolders, createFolder, renameFolder, deleteFolder, deleteVideo, renameVideoTag, patchFolderDays } from "../../api/foldersApi"
 
 import { AddButton, FoldersContainer, VideosContainer } from "../../components/folders/styles"
 import FolderList from "../../components/folders/FolderList"
 import VideoList from "../../components/folders/VideoList"
-import { ModalNewFolder, ModalRenameFolder, ModalDeleteFolder } from "../../components/folders/FolderModals"
+import { ModalNewFolder, ModalRenameFolder, ModalDeleteFolder, ModalDaysOfWeek } from "../../components/folders/FolderModals"
 
 export default function FoldersPage() {
     const { folders, setFolders } = useData()
@@ -23,6 +23,9 @@ export default function FoldersPage() {
     const [renameFolderName, setRenameFolderName] = useState("")
     const [folderToEdit, setFolderToEdit] = useState(null)
     const [activeEdit, setActiveEdit] = useState(false)
+
+    const [modalDaysOpen, setModalDaysOpen] = useState(false);
+    const [folderForDays, setFolderForDays] = useState(null);
 
     const navigate = useNavigate()
 
@@ -81,6 +84,31 @@ export default function FoldersPage() {
         alert("Erro ao excluir pasta")
         }
     }
+
+    // Função para abrir o modal de dias
+    const handleOpenDaysModal = (folder) => {
+        setFolderForDays(folder);
+        setModalDaysOpen(true);
+    };
+
+    // Função para salvar os dias selecionados
+    const handleSaveDays = async (folderName, daysOfWeek) => {
+        try {
+            const token = localStorage.getItem("token");
+            await patchFolderDays(folderName, daysOfWeek, token);
+
+            // Atualiza estado local
+            const updatedFolders = folders.map(f =>
+            f.name === folderName ? { ...f, daysOfWeek } : f
+            );
+            setFolders(updatedFolders);
+
+            // Fecha modal
+            setModalDaysOpen(false);
+        } catch (err) {
+            console.error("Erro ao atualizar dias:", err);
+        }
+    };
 
     const handleDeleteVideo = async (video, folderName) => {
     if (!window.confirm(`Deseja realmente excluir o vídeo "${video.title}" da pasta "${folderName}"?`)) {
@@ -184,6 +212,7 @@ export default function FoldersPage() {
                 setFolderToEdit(folder)
                 setModalDeleteOpen(true)
             }}
+            onEditDays={handleOpenDaysModal}
             />
         </FoldersContainer>
 
@@ -222,6 +251,14 @@ export default function FoldersPage() {
             folderName={folderToEdit?.name}
             onDelete={handleDeleteFolder}
         />
+
+        <ModalDaysOfWeek
+            open={modalDaysOpen}
+            folder={folderForDays}
+            onClose={() => setModalDaysOpen(false)}
+            onSave={handleSaveDays}
+        />
+
         </>
     )
 }

@@ -2,8 +2,9 @@ import { FolderCard } from "./styles"
 import { ImCancelCircle } from "react-icons/im"
 import { RiEditCircleFill } from "react-icons/ri";
 import { FaFolderOpen, FaFolderClosed } from "react-icons/fa6";
+import { FaRegClock } from "react-icons/fa";
 
-export default function FolderList({ activeEdit, folders, folderName, onSelect, onRename, onDelete }) {
+export default function FolderList({ activeEdit, folders, folderName, onSelect, onRename, onDelete, onEditDays }) {
   return (
     <>
       {folders.map((folder, index) => (
@@ -27,7 +28,11 @@ export default function FolderList({ activeEdit, folders, folderName, onSelect, 
                 onClick={() => onRename(folder)}
               />
             </>
-          : <></>}
+          : <FaRegClock 
+            className="deleteIcon"
+            color="#AE9F2E"
+            onClick={() => onEditDays(folder)}
+          />}
         </FolderCard>
       ))}
     </>

@@ -1,4 +1,5 @@
-import { ModalOverlay, ModalContent, Input, Buttons, ModalButton } from "./styles"
+import { useEffect, useState } from "react"
+import { ModalOverlay, ModalContent, Input, Buttons, ModalButton, DaysContainer, Day } from "./styles"
 
 export function ModalNewFolder({ open, onClose, value, onChange, onSave }) {
   if (!open) return null
@@ -46,4 +47,62 @@ export function ModalDeleteFolder({ open, onClose, folderName, onDelete }) {
       </ModalContent>
     </ModalOverlay>
   )
+}
+
+const allDays = [
+	"domingo",
+	"segunda-feira",
+	"terça-feira",
+	"quarta-feira",
+	"quinta-feira",
+	"sexta-feira",
+	"sábado"
+];
+
+export function ModalDaysOfWeek({ open, folder, onClose, onSave }) {
+	const [selectedDays, setSelectedDays] = useState([]);
+
+	useEffect(() => {
+		if (folder) {
+		setSelectedDays(folder.daysOfWeek || []);
+		}
+	}, [folder]);
+
+	const toggleDay = (day) => {
+		setSelectedDays((prev) =>
+		prev.includes(day)
+			? prev.filter((d) => d !== day)
+			: [...prev, day]
+		);
+	};
+
+	const handleSave = () => {
+		onSave(folder.name, selectedDays);
+		onClose();
+	};
+
+	if (!open) return null;
+
+	return (
+		<ModalOverlay>
+		<ModalContent>
+			<h3>Selecionar dias da semana</h3>
+			<DaysContainer>
+			{allDays.map((day) => (
+				<Day
+				key={day}
+				selected={selectedDays.includes(day)}
+				onClick={() => toggleDay(day)}
+				>
+				{day}
+				</Day>
+			))}
+			</DaysContainer>
+			<Buttons>
+			<ModalButton onClick={onClose}>Cancelar</ModalButton>
+			<ModalButton onClick={handleSave}>Salvar</ModalButton>
+			</Buttons>
+		</ModalContent>
+		</ModalOverlay>
+	);
 }
