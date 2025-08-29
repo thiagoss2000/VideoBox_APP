@@ -38,10 +38,14 @@ export const Style_header = styled.header`
         background-clip: text;
         cursor: pointer;
     }
-
-    input {
+    .searchBox {
         height: 45%;
         width: 30%;
+        position: relative;
+    }
+    input {
+        height: 100%;
+        width: 100%;
         border: 1px solid #ccc;       /* borda padrão */
         border-radius: 20px;           /* cantos arredondados */
         padding: 8px 10px;            /* espaçamento interno */
@@ -51,6 +55,13 @@ export const Style_header = styled.header`
     }
     input::placeholder {
         color: #1d75d949;                  /* cor do texto placeholder */
+    }
+    .searchIcon {
+        font-size: 1.4rem;
+        position: absolute;
+        right: 5px;
+        top: calc(50% - 0.7rem);
+        cursor: pointer;
     }
 
     .user {

@@ -14,9 +14,9 @@ export default function Home() {
     const fetchTimeline = async (newList = false) => {
         const token = localStorage.getItem("token");
         if (!token) {
-        setError("Token não encontrado. Faça login novamente.");
-        setLoading(false);
-        return;
+            setError("Token não encontrado. Faça login novamente.");
+            setLoading(false);
+            return;
         }
 
         try {
