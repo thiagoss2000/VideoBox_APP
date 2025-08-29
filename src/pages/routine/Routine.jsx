@@ -5,7 +5,7 @@ import { useData } from "../../context/MainContext"
 import { RoutineContainer, Daily, VideoCard } from "./styles";
 
 export default function Routine() {
-    const { folders, setFolders } = useData()
+    const { folders } = useData()
     const [day, setDay] = useState("");
     const [foldersToday, setFoldersToday] = useState([]);
     const Navigate = useNavigate();
