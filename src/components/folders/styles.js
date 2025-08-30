@@ -16,6 +16,9 @@ export const FoldersContainer = styled.div`
 	flex-wrap: wrap;
 	gap: 16px;
 	padding-inline: 16px;
+	padding-bottom: 30px;
+    border-bottom: solid 1px black;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 `
 
 export const FolderCard = styled.div`
@@ -38,8 +41,14 @@ export const FolderCard = styled.div`
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
+		text-align: center;
 	}
-	p { margin: 4px 0; font-size: 0.9rem; word-break: break-word; }
+	p { 
+		font-size: 0.9rem; 
+		word-break: break-word; 
+		width: 100%;
+		text-align: center;
+	}
 
 	.folderIcon {
 		font-size: 6rem;
