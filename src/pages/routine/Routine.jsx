@@ -5,18 +5,17 @@ import { useData } from "../../context/MainContext"
 import { RoutineContainer, Daily, VideoCard } from "./styles";
 
 export default function Routine() {
-    const { folders } = useData()
-    const [day, setDay] = useState("");
+    const { folders, fetchFoldersData } = useData()
     const [foldersToday, setFoldersToday] = useState([]);
     const Navigate = useNavigate();
 
     useEffect(() => {
+        fetchFoldersData()
         const today = new Date();
         const weekday = today.toLocaleDateString("pt-BR", { weekday: "long" });
-        setDay(weekday);
 
         if (folders && folders.length > 0) {
-        // normaliza para minúsculas (para não dar erro de acento ou capitalização)
+        // normaliza para minúsculas
         const filtered = folders.filter((f) =>
             f.daysOfWeek?.some(
             (d) => d.toLowerCase() === weekday.toLowerCase()

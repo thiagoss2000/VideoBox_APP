@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useData } from "../../context/MainContext"
 
-import { fetchFolders, createFolder, renameFolder, deleteFolder, deleteVideo, renameVideoTag, patchFolderDays } from "../../api/foldersApi"
+import { createFolder, renameFolder, deleteFolder, deleteVideo, renameVideoTag, patchFolderDays } from "../../api/foldersApi"
 
 import { AddButton, FoldersContainer, VideosContainer } from "../../components/folders/styles"
 import FolderList from "../../components/folders/FolderList"
@@ -10,10 +10,8 @@ import VideoList from "../../components/folders/VideoList"
 import { ModalNewFolder, ModalRenameFolder, ModalDeleteFolder, ModalDaysOfWeek } from "../../components/folders/FolderModals"
 
 export default function FoldersPage() {
-    const { folders, setFolders } = useData()
+    const { folders, setFolders, error, loading, fetchFoldersData} = useData()
     const [selectedFolder, setSelectedFolder] = useState(null)
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState("")
 
     const [modalNewOpen, setModalNewOpen] = useState(false)
     const [modalRenameOpen, setModalRenameOpen] = useState(false)
@@ -29,17 +27,6 @@ export default function FoldersPage() {
 
     const navigate = useNavigate()
 
-    const fetchFoldersData = async () => {
-        try {
-        const token = localStorage.getItem("token")
-        const res = await fetchFolders(token)
-        setFolders(res.data[0]?.folders || [])
-        } catch {
-        setError("Erro ao carregar pastas.")
-        } finally {
-        setLoading(false)
-        }
-    }
 
     useEffect(() => {
         fetchFoldersData()
