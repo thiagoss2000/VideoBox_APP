@@ -6,6 +6,7 @@ import Player from "../../pages/player/Player";
 import FoldersPage from "../../pages/folders/Folder";
 import Routine from "../../pages/routine/Routine";
 import Notes from "../../pages/notes/Notes";
+import Preferences from "../../pages/preferences/Preferences";
 
 export default function MainContent() {
   return (
@@ -16,7 +17,7 @@ export default function MainContent() {
           <Route path="/folders" element={<FoldersPage />} />
           <Route path="/planner" element={<Routine />} />
           <Route path="/notes" element={<Notes />} />
-          {/* <Route path="/preferences" element={<Preferences />} />*/}
+          <Route path="/preferences" element={<Preferences />} />
           <Route path="/player" element={<Player />} /> 
         </Routes>
       </MainProvider>
