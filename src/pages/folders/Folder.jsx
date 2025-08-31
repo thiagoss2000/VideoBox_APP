@@ -177,16 +177,22 @@ export default function FoldersPage() {
 
     if (loading) return <p style={{ textAlign: "center" }}>Carregando pastas...</p>
     if (error) return <p style={{ textAlign: "center", color: "red" }}>{error}</p>
-    if (folders.length === 0) return <p style={{ textAlign: "center" }}>Nenhuma pasta encontrada.</p>
 
     return (
         <>
         <AddButton onClick={() => setModalNewOpen(true)}>+ Nova Pasta</AddButton>
-        <AddButton onClick={() => setActiveEdit(!activeEdit)}>{activeEdit ? "Voltar" : "Editar"}</AddButton>
+        {folders.length > 0 && (
+        <AddButton onClick={() => setActiveEdit(!activeEdit)}>
+            {activeEdit ? "Voltar" : "Editar"}
+        </AddButton>
+        )}
 
+        {folders.length === 0 ? (
+        <p style={{ textAlign: "center" }}>Nenhuma pasta encontrada.</p>
+        ) : (
         <FoldersContainer>
             <FolderList
-            activeEdit = {activeEdit}
+            activeEdit={activeEdit}
             folders={folders}
             folderName={selectedFolder?.name}
             onSelect={setSelectedFolder}
@@ -202,18 +208,19 @@ export default function FoldersPage() {
             onEditDays={handleOpenDaysModal}
             />
         </FoldersContainer>
+        )}
 
         {selectedFolder?.videos?.length > 0 && (
-            <VideosContainer>
+        <VideosContainer>
             <VideoList
-                activeEdit = {activeEdit}
-                videos={selectedFolder.videos}
-                folderName={selectedFolder.name}
-                onPlay={handlePlayVideo}
-                onDelete={handleDeleteVideo}
-                onRename={handleRenameVideo}
+            activeEdit={activeEdit}
+            videos={selectedFolder.videos}
+            folderName={selectedFolder.name}
+            onPlay={handlePlayVideo}
+            onDelete={handleDeleteVideo}
+            onRename={handleRenameVideo}
             />
-            </VideosContainer>
+        </VideosContainer>
         )}
 
         <ModalNewFolder

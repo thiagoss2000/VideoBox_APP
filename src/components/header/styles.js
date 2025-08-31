@@ -122,4 +122,16 @@ export const Style_header = styled.header`
         border-radius: 5px;
         cursor: pointer;
     }
+
+    .deleteAccount {
+        height: 80%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-inline: 5px;
+        background-color: transparent;
+        border: 1px solid #808080;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 `;

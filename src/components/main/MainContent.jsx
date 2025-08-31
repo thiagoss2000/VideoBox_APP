@@ -9,18 +9,18 @@ import Notes from "../../pages/notes/Notes";
 import Preferences from "../../pages/preferences/Preferences";
 
 export default function MainContent() {
-  return (
-    <div style={{ flex: 1, overflow: "auto" }}>
-      <MainProvider>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/folders" element={<FoldersPage />} />
-          <Route path="/planner" element={<Routine />} />
-          <Route path="/notes" element={<Notes />} />
-          <Route path="/preferences" element={<Preferences />} />
-          <Route path="/player" element={<Player />} /> 
-        </Routes>
-      </MainProvider>
-    </div>
-  );
+	return (
+		<div style={{ flex: 1, overflow: "auto" }}>
+		<MainProvider>
+			<Routes>
+			<Route path="/" element={<Home />} />
+			<Route path="/folders" element={<FoldersPage />} />
+			<Route path="/planner" element={<Routine />} />
+			<Route path="/notes" element={<Notes />} />
+			<Route path="/preferences" element={<Preferences />} />
+			<Route path="/player" element={<Player />} /> 
+			</Routes>
+		</MainProvider>
+		</div>
+	);
 }

@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/api";
+import { AuthContainer, AuthBox } from "./styles";
 
-export default function Login() {
+export default function Signin() {
 	const navigate = useNavigate();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -13,16 +14,15 @@ export default function Login() {
 		if (token) navigate("/", { replace: true });
 	}, [navigate]);
 
-	const handleLogin = async () => {
+	const handleSignin = async () => {
 		setError("");
 		try {
 		const res = await api.post("/sign-in", { email, password });
 
 		if (res.status === 200) {
-			const { token } = res.data; // token recebido
-			const username = email.split("@")[0];   // nome de usuario email
+			const { token, user_name } = res.data; // token recebido
 			localStorage.setItem("token", token);
-			localStorage.setItem("username", username);
+			localStorage.setItem("username", user_name);
 			navigate("/", { replace: true });
 		}
 		} catch (err) {
@@ -37,22 +37,28 @@ export default function Login() {
 	};
 
 	return (
-		<div style={{ display: "flex", flexDirection: "column", gap: "10px", maxWidth: "300px", margin: "auto" }}>
-		<h1>Login</h1>
-		<input
-			type="email"
-			placeholder="Digite seu email"
-			value={email}
-			onChange={(e) => setEmail(e.target.value)}
-		/>
-		<input
-			type="password"
-			placeholder="Digite sua senha"
-			value={password}
-			onChange={(e) => setPassword(e.target.value)}
-		/>
-		{error && <p style={{ color: "red" }}>{error}</p>}
-		<button onClick={handleLogin}>Entrar</button>
-		</div>
+		<AuthContainer>
+		<AuthBox>
+			<h1>Login</h1>
+			<input
+				type="email"
+				placeholder="Digite seu email"
+				value={email}
+				onChange={(e) => setEmail(e.target.value)}
+			/>
+			<input
+				type="password"
+				placeholder="Digite sua senha"
+				value={password}
+				onChange={(e) => setPassword(e.target.value)}
+			/>
+			{error && <p style={{ color: "red" }}>{error}</p>}
+			<button onClick={handleSignin}>Entrar</button>
+			<p className="redirect">
+				Não tem conta?{" "}
+				<span onClick={() => navigate("/signup")}>Cadastrar</span>
+			</p>
+		</AuthBox>
+		</AuthContainer>
 	);
 }

@@ -1,10 +1,11 @@
 import Header from "./components/header/Header";
 import Sidebar from "./components/sidebar/Sidebar";
 import MainContent from "./components/main/MainContent";
-import Login from "./pages/login/Login";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react"; 
+import Signup from "./pages/login/Signup";
+import Signin from "./pages/login/Signin";
 
 export default function App() {
     const [collapsed, setCollapsed] = useState(false);
@@ -21,7 +22,8 @@ export default function App() {
 					<MainContent />
 				</div>
 			</>} />
-			<Route path="/login" element={<Login />} />
+			<Route path="/signin" element={<Signin />} />
+			<Route path="/signup" element={<Signup />} />
 		</Routes>
 		</Router>
 		

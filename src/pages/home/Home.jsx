@@ -26,6 +26,7 @@ export default function Home() {
         setError("");
         } catch (err) {
         setError("Erro ao carregar vídeos.");
+        console.error(err)
         } finally {
         setLoading(false);
         }
@@ -57,7 +58,7 @@ export default function Home() {
                 }
             >
                 <div className="thumbnail">
-                <img src={video.thumbnails?.medium?.url || ""} alt={video.title} />
+                <img src={video.thumbnails?.high?.url || ""} alt={video.title} />
                 </div>
                 <div className="info">
                 <h4>{video.title}</h4>
